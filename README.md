@@ -15,7 +15,9 @@
 ![GitHub pull requests](https://img.shields.io/github/issues-pr/newrelic-experimental/nri-mssql)
 ![GitHub pull requests closed](https://img.shields.io/github/issues-pr-closed/newrelic-experimental/nri-mssql)
 
-# New Relic experimental integration for Microsoft SQL Server
+# New Relic experimental integration for Microsoft SQL Server- Experimental
+
+* This is the standard SQL Server NRI PLUS Query Plans sent to the Log API *
 
 The New Relic integration for MS SQL Server captures critical performance metrics and inventory reported by a SQL Server Instance. Data on the SQL Server Instance and Databases is collected.
 
