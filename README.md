@@ -1,4 +1,19 @@
-[![Community Plus header](https://github.com/newrelic/opensource-website/raw/master/src/images/categories/Community_Plus.png)](https://opensource.newrelic.com/oss-category/#community-plus)
+[![New Relic Experimental header](https://github.com/newrelic/opensource-website/raw/master/src/images/categories/Experimental.png)](https://opensource.newrelic.com/oss-category/#new-relic-experimental)
+
+![GitHub forks](https://img.shields.io/github/forks/newrelic-experimental/nri-mssql?style=social)
+![GitHub stars](https://img.shields.io/github/stars/newrelic-experimental/nri-mssql?style=social)
+![GitHub watchers](https://img.shields.io/github/watchers/newrelic-experimental/nri-mssql?style=social)
+
+![GitHub all releases](https://img.shields.io/github/downloads/newrelic-experimental/nri-mssql/total)
+![GitHub release (latest by date)](https://img.shields.io/github/v/release/newrelic-experimental/nri-mssql)
+![GitHub last commit](https://img.shields.io/github/last-commit/newrelic-experimental/nri-mssql)
+![GitHub Release Date](https://img.shields.io/github/release-date/newrelic-experimental/nri-mssql)
+
+
+![GitHub issues](https://img.shields.io/github/issues/newrelic-experimental/nri-mssql)
+![GitHub issues closed](https://img.shields.io/github/issues-closed/newrelic-experimental/nri-mssql)
+![GitHub pull requests](https://img.shields.io/github/issues-pr/newrelic-experimental/nri-mssql)
+![GitHub pull requests closed](https://img.shields.io/github/issues-pr-closed/newrelic-experimental/nri-mssql)
 
 # New Relic integration for Microsoft SQL Server
 
