@@ -21,7 +21,8 @@ As this is a custom integration it must be installed manually. All directions as
 *NOTE:* YAML escapes backslash sequences unless the entire string is enclosed in single quotes.
 
 ### [Common MS SQL options](https://docs.newrelic.com/docs/infrastructure/host-integrations/host-integrations-list/microsoft-sql/microsoft-sql-server-integration/#config)
-This integration is a fork of the Production MS SQL Integration, see [here](https://docs.newrelic.com/docs/infrastructure/host-integrations/host-integrations-list/microsoft-sql/microsoft-sql-server-integration/#config) for that configuration
+This integration is a fork of the Production MS SQL Integration, see [here](https://docs.newrelic.com/docs/infrastructure/host-integrations/host-integrations-list/microsoft-sql/microsoft-sql-server-integration/#config) for common 
+configuration settings.
 
 ### Query plan specific configuration
 Custom configuration parameters for `mssql-queryplan-config.yml`, all are placed under the `env` stanza:
@@ -42,8 +43,7 @@ This integration is relatively complex, here is a list of troubleshooting tips:
 2. Enable `VERBOSE` logging and look at the Infrastructure log
 3. Run the integration from the command line and check for errors. Run `nri-mssql-queryplan --help` for more information.
 
-## Building
-
+## Building (Optional)
 Golang and make are required to build the integration. Use a current version of Go.
 
 After cloning this repository, go to the directory of the MSSQL integration and build it:
