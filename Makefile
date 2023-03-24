@@ -1,5 +1,5 @@
 WORKDIR         := $(shell pwd)
-INTEGRATION     := mssql
+INTEGRATION     := mssql-queryplan
 BINARY_NAME      = nri-$(INTEGRATION)
 GO_FILES        := ./src/
 GOFLAGS          = -mod=readonly
