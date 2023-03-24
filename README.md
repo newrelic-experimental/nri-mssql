@@ -3,10 +3,14 @@
 **This is the standard SQL Server NRI (v2.8.1) PLUS Query Plans sent to the Log API**
 
 ## [Compatibility and Requirements](https://docs.newrelic.com/docs/infrastructure/host-integrations/host-integrations-list/microsoft-sql/microsoft-sql-server-integration/#req)
-## [SQL Server Configuration](https://docs.newrelic.com/docs/infrastructure/host-integrations/host-integrations-list/microsoft-sql/microsoft-sql-server-integration/#enable-microsoft-sql-server)
-## Installation
+Follow *only* the Compatibility and Requirements, do not continue to `Install and activate the integration`
 
+## [SQL Server Configuration](https://docs.newrelic.com/docs/infrastructure/host-integrations/host-integrations-list/microsoft-sql/microsoft-sql-server-integration/#enable-microsoft-sql-server)
+Follow the directions in [`Enable your Microsoft SQL Server`](https://docs.newrelic.com/docs/infrastructure/host-integrations/host-integrations-list/microsoft-sql/microsoft-sql-server-integration/#enable-microsoft-sql-server), 
+
+## Installation
 As this is a custom integration it must be installed manually. All directions assume a standard Infrastructure installation.
+
 ### Linux
 1. Download `nri-mssql-queryplan` from the [GitHub Release directory](https://github.com/newrelic-experimental/nri-mssql-experimental/releases)
 2. Place `nri-mssql-queryplan` in `/var/db/newrelic-infra/custom-integrations`
@@ -22,7 +26,7 @@ As this is a custom integration it must be installed manually. All directions as
 
 ### [Common MS SQL options](https://docs.newrelic.com/docs/infrastructure/host-integrations/host-integrations-list/microsoft-sql/microsoft-sql-server-integration/#config)
 This integration is a fork of the Production MS SQL Integration, see [here](https://docs.newrelic.com/docs/infrastructure/host-integrations/host-integrations-list/microsoft-sql/microsoft-sql-server-integration/#config) for common 
-configuration settings.
+configuration settings. All original configuration settings work with this integration.
 
 ### Query plan specific configuration
 Custom configuration parameters for `mssql-queryplan-config.yml`, all are placed under the `env` stanza:
@@ -49,7 +53,7 @@ Golang and make are required to build the integration. Use a current version of 
 After cloning this repository, go to the directory of the MSSQL integration and build it:
 
 ```bash
-$ GOOS=linux GOARCH=amd64 make clean compile
+$ make clean compile
 ```
 
 To cross compile the application for an alternate platform use:
@@ -73,7 +77,7 @@ windows/amd64
 ...
 ```
 
-To start the integration, run `nri-mssql`:
+To start the integration from a command line, run `nri-mssql`:
 
 ```bash
 $ ./bin/nri-mssql

@@ -1,9 +1,6 @@
 integrations:
   - name: nri-mssql-queryplan
     env:
-      EVENTS: false
-      INVENTORY: false
-      METRICS: false
       HOSTNAME: <FQN_OR_IP_ADDRESS>
       PORT: 1433
       USERNAME: <YOUR_DB_USER>
