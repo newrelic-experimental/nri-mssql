@@ -1,0 +1,12 @@
+integrations:
+  - name: nri-mssql-queryplan
+    env:
+      EVENTS: false
+      INVENTORY: false
+      METRICS: false
+      HOSTNAME: <FQN_OR_IP_ADDRESS>
+      PORT: 1433
+      USERNAME: <YOUR_DB_USER>
+      PASSWORD: <YOUR_DB_USERS_PASSWORD>
+      QUERY_PLAN_CONFIG: 'FULL_PATH_TO_QUERYPLAN_CONFIG_FILE'
+    interval: 15s

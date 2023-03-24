@@ -1,121 +1,77 @@
-[![New Relic Experimental header](https://github.com/newrelic/opensource-website/raw/master/src/images/categories/Experimental.png)](https://opensource.newrelic.com/oss-category/#new-relic-experimental)
-
-![GitHub forks](https://img.shields.io/github/forks/newrelic-experimental/nri-mssql?style=social)
-![GitHub stars](https://img.shields.io/github/stars/newrelic-experimental/nri-mssql?style=social)
-![GitHub watchers](https://img.shields.io/github/watchers/newrelic-experimental/nri-mssql?style=social)
-
-![GitHub all releases](https://img.shields.io/github/downloads/newrelic-experimental/nri-mssql/total)
-![GitHub release (latest by date)](https://img.shields.io/github/v/release/newrelic-experimental/nri-mssql)
-![GitHub last commit](https://img.shields.io/github/last-commit/newrelic-experimental/nri-mssql)
-![GitHub Release Date](https://img.shields.io/github/release-date/newrelic-experimental/nri-mssql)
-
-
-![GitHub issues](https://img.shields.io/github/issues/newrelic-experimental/nri-mssql)
-![GitHub issues closed](https://img.shields.io/github/issues-closed/newrelic-experimental/nri-mssql)
-![GitHub pull requests](https://img.shields.io/github/issues-pr/newrelic-experimental/nri-mssql)
-![GitHub pull requests closed](https://img.shields.io/github/issues-pr-closed/newrelic-experimental/nri-mssql)
-
 # New Relic  integration for Microsoft SQL Server- Experimental
 
-**This is the standard SQL Server NRI PLUS Query Plans sent to the Log API**
+**This is the standard SQL Server NRI (v2.8.1) PLUS Query Plans sent to the Log API**
 
-The New Relic integration for MS SQL Server captures critical performance metrics and inventory reported by a SQL Server Instance. Data on the SQL Server Instance and Databases is collected.
+## [Compatibility and Requirements](https://docs.newrelic.com/docs/infrastructure/host-integrations/host-integrations-list/microsoft-sql/microsoft-sql-server-integration/#req)
+## [SQL Server Configuration](https://docs.newrelic.com/docs/infrastructure/host-integrations/host-integrations-list/microsoft-sql/microsoft-sql-server-integration/#enable-microsoft-sql-server)
+## Installation
 
-Inventory and metric data is collected via SQL queries to the Instance.
+As this is a custom integration it must be installed manually. All directions assume a standard Infrastructure installation.
+### Linux
+1. Download `nri-mssql-queryplan` from the [GitHub Release directory](https://github.com/newrelic-experimental/nri-mssql-experimental/releases)
+2. Place `nri-mssql-queryplan` in `/var/db/newrelic-infra/custom-integrations`
+3. Copy the [Integration's configuration file](samples/mssql-queryplan-config.yml.sample) to `/etc/newrelic-infra/integrations.d/`
+
+### Windows
+1. Download `nri-mssql-queryplan.exe` from the [GitHub Release directory](https://github.com/newrelic-experimental/nri-mssql-experimental/releases)
+2. Place `nri-mssql-queryplan.exe` in `C:\Program Files\New Relic\newrelic-infra\newrelic-integrations`
+3. Copy the [Integration's configuration file](samples/mssql-queryplan-config.yml.sample) to `C:\Program Files\New Relic\newrelic-infra\integrations.d`
 
 ## Configuration
+*NOTE:* YAML escapes backslash sequences unless the entire string is enclosed in single quotes.
 
-A user with the necessary permissions to collect all the metrics and inventory can be configured as follows
+### [Common MS SQL options](https://docs.newrelic.com/docs/infrastructure/host-integrations/host-integrations-list/microsoft-sql/microsoft-sql-server-integration/#config)
+This integration is a fork of the Production MS SQL Integration, see [here](https://docs.newrelic.com/docs/infrastructure/host-integrations/host-integrations-list/microsoft-sql/microsoft-sql-server-integration/#config) for that configuration
 
-```sql
-USE master;
-CREATE LOGIN newrelic WITH PASSWORD = 'tmppassword';
-CREATE USER newrelic FOR LOGIN newrelic;
-GRANT CONNECT SQL TO newrelic;
-GRANT VIEW SERVER STATE TO newrelic;
-
--- Goes through each user database and adds public permissions
-DECLARE @name NVARCHAR(max)
-DECLARE db_cursor CURSOR FOR
-SELECT NAME
-FROM master.dbo.sysdatabases
-WHERE NAME NOT IN ('master','msdb','tempdb','model')
-OPEN db_cursor
-FETCH NEXT FROM db_cursor INTO @name WHILE @@FETCH_STATUS = 0
-BEGIN
-	EXECUTE('USE "' + @name + '"; CREATE USER newrelic FOR LOGIN newrelic;' );
-	FETCH next FROM db_cursor INTO @name
-END
-CLOSE db_cursor
-DEALLOCATE db_cursor
-```
-
-## Installation and usage
-
-For installation and usage instructions, see our [documentation web site](https://docs.newrelic.com/docs/integrations/host-integrations/host-integrations-list/mssql-monitoring-integration).
-
-## Custom queries
-
-To add custom queries, use the **-custom_metrics_query** option to provide a single query, or the **-custom_metrics_config** option to specify a YAML file with one or more queries, such as the sample `mssql-custom-query.yml.sample`
-
-### How attributes are named
-
-Each query that returns a table of values will be parsed row by row, adding the **MssqlCustomQuerySample** event as follows:
-
-- The column name is the attribute name
-- Each row value in that column is the attribute value
-- The metric type is auto-detected whether it is a number (type GAUGE), or a string (type ATTRIBUTE)
-
-One customizable attribute in each row can be configured by database values using the following names:
-
-- The column `metric_name` specifies its attribute name
-- The column `metric_value` specifies its attribute value
-- The column `metric_type` specifies its metric type, i.e. `gauge` or `attribute`
-
-For example, the following query makes attributes named `category_0`, `category_1`, `category_2` and so on.
-```sql
-SELECT CONCAT('category_', category_id) AS metric_name, name AS metric_value, category_type FROM syscategories
-```
-
-### Specifying queries in YAML
-
-When using a YAML file containing queries, you can specify the following parameters for each query:
-
-- `query` (required) contains the SQL query
-- `database` (optional) Prepends `USE <database name>; ` to the SQL, and adds the database name as an attribute
-- `prefix` (optional) prefix to prepend to the attribute name
-- `metric_name` (optional) specify the name for the customizable attribute
-- `metric_type` (optional) specify the metric type for the customizable attribute
+### Query plan specific configuration
+Custom configuration parameters for `mssql-queryplan-config.yml`, all are placed under the `env` stanza:
+-  `QUERY_PLAN_CONFIG`: Full path to YAML configuration with one or more SQL queries that collects query plans. See [`queryplan.yml.sample`](samples/queryplan.yml.sample) for an example. No default value.
+-  `LOG_API_ENDPOINT`:  URL of the New Relic Log endpoint to use, [see here for options](https://docs.newrelic.com/docs/logs/log-api/introduction-log-api/#endpoint). Default is the US endpoint `https://log-api.newrelic.com/log/v1`
+-  `LICENSE_KEY`:       New Relic License Key or Insights Insert Key, License Key is preferred.
 
 ## Query Plan Logging
-The integration is capable of sending Query Plans to the New Relic Log API. The Log API is used as it can accept plans up to 128K in length after gzip compression and base64 encoding. The resulting `query_plan` attribute is:
+The integration is capable of sending Query Plans to the New Relic Log API. The Log API is used as it can accept plans up to 128K in length after gzip compression and base64 encoding. The resulting `Logs` events each contain a `query_plan` 
+attribute that is:
 - Base64 encoded
 - gzip'd
 - JSON string (not XML)
 
-### Configuration
-Configuration parameters for `mssql-config.yml`:
--  `QueryPlanConfig`: Full path to YAML configuration with one or more SQL queries that collects query plans. See `queryplan.yml.sample` for an example. No default value.
--  `LogApiEndpoint`:  URL of the New Relic Log endpoint to use, [see](https://docs.newrelic.com/docs/logs/log-api/introduction-log-api/#endpoint). Default is the US endpoint "https://log-api.newrelic.com/log/v1"
--  `LicenseKey`:      New Relic License Key or Insights Insert Key, License Key is preferred.
-## Compatibility
-
-* Supported OS: Windows version compatible with the New Relic infrastructure agent
-* MS SQL Server versions: SQL Server 2008 R2+
-
-Note:  It also seems to work on Linux for the containerized Linux version of MSSQL
+## Troubleshooting
+This integration is relatively complex, here is a list of troubleshooting tips:
+1. Verify that the query plan SQL actually generates query plans by running it in a SQL tool against the database
+2. Enable `VERBOSE` logging and look at the Infrastructure log
+3. Run the integration from the command line and check for errors. Run `nri-mssql-queryplan --help` for more information.
 
 ## Building
 
-Golang is required to build the integration. We recommend Golang 1.16 or higher.
+Golang and make are required to build the integration. Use a current version of Go.
 
 After cloning this repository, go to the directory of the MSSQL integration and build it:
 
 ```bash
-$ make
+$ GOOS=linux GOARCH=amd64 make clean compile
 ```
 
-The command above executes the tests for the MSSQL integration and builds an executable file called `nri-mssql` under the `bin` directory. 
+To cross compile the application for an alternate platform use:
+```bash
+GOOS=<OS> GOARCH=<ARCH> make clean compile
+```
+
+To see a list of available operating systems and architectures try:
+```bash
+go tool dist list
+```
+Which displays a list of `<OperatingSystem>/<Architecture>` pairs, for instance:
+```bash
+go tool dist list
+...
+linux/386
+linux/amd64
+...
+windows/386
+windows/amd64
+...
+```
 
 To start the integration, run `nri-mssql`:
 
