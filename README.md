@@ -1,3 +1,11 @@
+<a href="https://opensource.newrelic.com/oss-category/#archived"><picture><source media="(prefers-color-scheme: dark)" srcset="https://github.com/newrelic/opensource-website/raw/main/src/images/categories/dark/Archived.png"><source media="(prefers-color-scheme: light)" srcset="https://github.com/newrelic/opensource-website/raw/main/src/images/categories/Archived.png"><img alt="New Relic Open Source archived project banner." src="https://github.com/newrelic/opensource-website/raw/main/src/images/categories/Archived.png"></picture></a>
+
+# Archival Notice
+
+❗Notice: This project has been archived _as is_ and is no longer actively maintained.
+
+---
+
 # New Relic  integration for Microsoft SQL Server- Experimental
 
 **This is the standard SQL Server NRI (v2.8.1) PLUS Query Plans sent to the Log API**
@@ -6,7 +14,7 @@
 Follow *only* the Compatibility and Requirements, do not continue to `Install and activate the integration`
 
 ## [SQL Server Configuration](https://docs.newrelic.com/docs/infrastructure/host-integrations/host-integrations-list/microsoft-sql/microsoft-sql-server-integration/#enable-microsoft-sql-server)
-Follow the directions in [`Enable your Microsoft SQL Server`](https://docs.newrelic.com/docs/infrastructure/host-integrations/host-integrations-list/microsoft-sql/microsoft-sql-server-integration/#enable-microsoft-sql-server), 
+Follow the directions in [`Enable your Microsoft SQL Server`](https://docs.newrelic.com/docs/infrastructure/host-integrations/host-integrations-list/microsoft-sql/microsoft-sql-server-integration/#enable-microsoft-sql-server),
 
 ## Installation
 As this is a custom integration it must be installed manually. All directions assume a standard Infrastructure installation.
@@ -25,7 +33,7 @@ As this is a custom integration it must be installed manually. All directions as
 *NOTE:* YAML escapes backslash sequences unless the entire string is enclosed in single quotes.
 
 ### [Common MS SQL options](https://docs.newrelic.com/docs/infrastructure/host-integrations/host-integrations-list/microsoft-sql/microsoft-sql-server-integration/#config)
-This integration is a fork of the Production MS SQL Integration, see [here](https://docs.newrelic.com/docs/infrastructure/host-integrations/host-integrations-list/microsoft-sql/microsoft-sql-server-integration/#config) for common 
+This integration is a fork of the Production MS SQL Integration, see [here](https://docs.newrelic.com/docs/infrastructure/host-integrations/host-integrations-list/microsoft-sql/microsoft-sql-server-integration/#config) for common
 configuration settings. All original configuration settings work with this integration.
 
 ### Query plan specific configuration
@@ -35,7 +43,7 @@ Custom configuration parameters for `mssql-queryplan-config.yml`, all are placed
 -  `LICENSE_KEY`:       New Relic License Key or Insights Insert Key, License Key is preferred.
 
 ## Query Plan Logging
-The integration is capable of sending Query Plans to the New Relic Log API. The Log API is used as it can accept plans up to 128K in length after gzip compression and base64 encoding. The resulting `Logs` events each contain a `query_plan` 
+The integration is capable of sending Query Plans to the New Relic Log API. The Log API is used as it can accept plans up to 128K in length after gzip compression and base64 encoding. The resulting `Logs` events each contain a `query_plan`
 attribute that is:
 - Base64 encoded
 - gzip'd
